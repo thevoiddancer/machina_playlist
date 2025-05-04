@@ -1,0 +1,13 @@
+<html>
+    <head></head>
+    <body>
+        <h1>
+            Stranica za bendove
+        </h1>
+        <p>
+            {% for band in object_list %}
+            <a href="{% url 'albums' band.name %}">{{ band.name }}</a><br>
+            {% endfor %}
+        </p>
+    </body>
+</html>

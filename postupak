@@ -1,0 +1,53 @@
+django-admin startproject playlist_archive .
+    python manage.py runserver
+create separate apps
+    python manage.py startapp catalog
+    #python manage.py startapp playlists
+    #python manage.py startapp stats
+create landing page
+    playlist_archive/templates/landing.html
+    expand urls.py
+    create views.py
+    edit settings.py
+        'DIRS': [os.path.join(BASE_DIR, 'playlist_archive', 'templates')],
+create models
+    catalog/models.py
+    register in admin.py
+    python manage.py makemigrations
+    python manage.py migrate
+add data
+    1. django admin
+        python manage.py createsuperuser
+    2. django shell - manually
+        python manage.py shell
+            from catalog.models import Artist, Album, Song
+            a = Artist.objects.create(name="Daft Punk")
+            al = Album.objects.create(title="Discovery", artist=a, year=2001)
+            Song.objects.create(title="One More Time", album=al)
+    3. django shell - automated
+        python manage.py shell < scripts/load_songs.py
+        shell:
+            import csv
+            from catalog.models import BandInfo, AlbumInfo, SongInfo
+
+            with open('catalog/data/songs.csv', newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    band_name = row['band'].strip()
+                    album_name = row['album'].strip()
+                    song_name = row['song'].strip()
+
+                    band, _ = BandInfo.objects.get_or_create(name=band_name)
+                    album, _ = AlbumInfo.objects.get_or_create(name=album_name, band=band)
+                    SongInfo.objects.get_or_create(name=song_name, album=album)
+urls
+    playlist_archive/urls.py
+    catalog/urls.py
+    catalog/views.py
+    catalog/templates/catalog.html
+    catalog/templates/bands.html
+    link them
+list view
+    for bands
+    for albums
+    

@@ -1,0 +1,11 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Albums for BAND NAME HERE</h1>
+        <p>
+            {% for album in object_list %}
+            <a href="#">{{ album.name }}</a>
+            {% endfor %}
+        </p>
+    </body>
+</html>
